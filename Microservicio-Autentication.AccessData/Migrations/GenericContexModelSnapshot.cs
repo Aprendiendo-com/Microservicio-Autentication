@@ -32,6 +32,18 @@ namespace Microservicio_Autentication.AccessData.Migrations
                     b.HasKey("RolId");
 
                     b.ToTable("Roles");
+
+                    b.HasData(
+                        new
+                        {
+                            RolId = 1,
+                            TipoRol = "Profesor"
+                        },
+                        new
+                        {
+                            RolId = 2,
+                            TipoRol = "Estudiante"
+                        });
                 });
 
             modelBuilder.Entity("Microservicio_Autentication.Domain.Entities.Usuario", b =>
@@ -45,6 +57,11 @@ namespace Microservicio_Autentication.AccessData.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(45)")
                         .HasMaxLength(45);
+
+                    b.Property<string>("Contraseña")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(250)")
+                        .HasMaxLength(250);
 
                     b.Property<string>("Email")
                         .IsRequired()

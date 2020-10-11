@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Microservicio_Autentication.AccessData.Migrations
 {
     [DbContext(typeof(GenericContex))]
-    [Migration("20201010015822_Migrations")]
-    partial class Migrations
+    [Migration("20201011051616_CreateMigration")]
+    partial class CreateMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -34,6 +34,18 @@ namespace Microservicio_Autentication.AccessData.Migrations
                     b.HasKey("RolId");
 
                     b.ToTable("Roles");
+
+                    b.HasData(
+                        new
+                        {
+                            RolId = 1,
+                            TipoRol = "Profesor"
+                        },
+                        new
+                        {
+                            RolId = 2,
+                            TipoRol = "Estudiante"
+                        });
                 });
 
             modelBuilder.Entity("Microservicio_Autentication.Domain.Entities.Usuario", b =>
@@ -47,6 +59,11 @@ namespace Microservicio_Autentication.AccessData.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(45)")
                         .HasMaxLength(45);
+
+                    b.Property<string>("Contraseña")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(250)")
+                        .HasMaxLength(250);
 
                     b.Property<string>("Email")
                         .IsRequired()

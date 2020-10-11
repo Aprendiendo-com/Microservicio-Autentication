@@ -2,48 +2,55 @@
 using Microservicio_Autentication.Domain.Command.BaseService;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 
 namespace Microservicio_Autentication.Application.Services.Base
 {
-    public class GenericService : IService
+    public class GenericService<T> : IService<T> where T : class
     {
-        protected IRepository Repository;
+        protected IRepository<T> Repository;
         
 
-        public GenericService(IRepository repository)
+        public GenericService(IRepository<T> repository)
         {
             this.Repository = repository;
         }
 
-        public void Add<T>(T entity) where T : class
+        public void Add(T entity)
         {
             Repository.Add(entity);
         }
 
-        public void Delete<T>(T entity) where T : class
+        public void Delete(T entity)
         {
-            Repository.Delete<T>(entity);
+            Repository.Delete(entity);
         }
 
-        public void DeleteBy<T>(int id) where T : class
+        public void DeleteBy(int id)
         {
-            Repository.DeleteBy<T>(id);
+            Repository.DeleteBy(id);
         }
 
-        public T FindBy<T>(int id) where T : class
+        public T FindBy(int id)
         {
-            return Repository.FindBy<T>(id);
+            return Repository.FindBy(id);
         }
 
-        public List<T> Traer<T>() where T : class
+        public IQueryable<T> GetBy(Expression<Func<T, bool>> predicate, string[] includeProperties = null)
         {
-            return Repository.Traer<T>();
+            return Repository.FindBy(predicate, includeProperties);
         }
 
-        public void Update<T>(T entity) where T : class
+        public List<T> Traer()
         {
-            Repository.Update<T>(entity);
+            return Repository.Traer();
+        }
+
+        public void Update(T entity)
+        {
+            Repository.Update(entity);
         }
 
     }

@@ -22,7 +22,7 @@ namespace Microservicio_Autentication.AccessData.Context
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(@"Server=.\SQLEXPRESS;Database=MicroAutentication;Trusted_Connection=True;");
+            optionsBuilder.UseSqlServer("Server =.\\SQLEXPRESS; Database = MicroAutenticacion; Trusted_Connection = True;");
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -32,6 +32,10 @@ namespace Microservicio_Autentication.AccessData.Context
                 entity.HasKey(q => q.RolId);
 
                 entity.Property(q => q.RolId).HasMaxLength(45).IsRequired();
+
+                entity.HasData( new Rol { RolId = 1, TipoRol = "Profesor"},
+                                new Rol { RolId = 2, TipoRol = "Estudiante"}
+                );
             }
             );
             modelBuilder.Entity<Usuario>(entity =>
@@ -40,6 +44,7 @@ namespace Microservicio_Autentication.AccessData.Context
                 entity.Property(q => q.Nombre).HasMaxLength(45).IsRequired();
                 entity.Property(q => q.Apellido).HasMaxLength(45).IsRequired();
                 entity.Property(q => q.Email).HasMaxLength(45).IsRequired();
+                entity.Property(q => q.Contraseña).HasMaxLength(250).IsRequired();
             }
             );
 
