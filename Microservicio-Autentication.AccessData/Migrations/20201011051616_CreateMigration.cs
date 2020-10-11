@@ -2,7 +2,7 @@
 
 namespace Microservicio_Autentication.AccessData.Migrations
 {
-    public partial class Migrations : Migration
+    public partial class CreateMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -27,7 +27,8 @@ namespace Microservicio_Autentication.AccessData.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Nombre = table.Column<string>(maxLength: 45, nullable: false),
                     Apellido = table.Column<string>(maxLength: 45, nullable: false),
-                    Email = table.Column<string>(maxLength: 45, nullable: false)
+                    Email = table.Column<string>(maxLength: 45, nullable: false),
+                    Contraseña = table.Column<string>(maxLength: 250, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -59,6 +60,16 @@ namespace Microservicio_Autentication.AccessData.Migrations
                         principalColumn: "UsuarioId",
                         onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.InsertData(
+                table: "Roles",
+                columns: new[] { "RolId", "TipoRol" },
+                values: new object[] { 1, "Profesor" });
+
+            migrationBuilder.InsertData(
+                table: "Roles",
+                columns: new[] { "RolId", "TipoRol" },
+                values: new object[] { 2, "Estudiante" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_UsuarioRoles_RolId",

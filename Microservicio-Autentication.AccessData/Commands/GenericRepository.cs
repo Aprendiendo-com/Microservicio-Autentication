@@ -4,11 +4,12 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 
 namespace Microservicio_Autentication.AccessData.Commands
 {
-    public class GenericRepository: IRepository
+    public class GenericRepository<T>: IRepository<T> where T : class
     {
 
         protected GenericContex Context;
@@ -17,41 +18,53 @@ namespace Microservicio_Autentication.AccessData.Commands
             this.Context = contexto;
         }
 
-        public void Add<T>(T entity) where T : class
+        public void Add(T entity)
         {
             Context.Set<T>().Add(entity);
             Context.SaveChanges();
         }
 
-        public void Delete<T>(T entity) where T : class
+        public void Delete(T entity)
         {
             Context.Set<T>().Attach(entity);
             Context.Set<T>().Remove(entity);
             Context.SaveChanges();
         }
 
-        public void DeleteBy<T>(int id) where T : class
+        public void DeleteBy(int id)
         {
-            T entity = FindBy<T>(id);
-            Delete<T>(entity);
+            T entity = FindBy(id);
+            Delete(entity);
         }
 
-        public T FindBy<T>(int id) where T : class
+        public T FindBy(int id)
         {
             return Context.Set<T>().Find(id);
         }
 
-        public List<T> Traer<T>() where T : class
+        public List<T> Traer()
         {
             List<T> query = Context.Set<T>().ToList();
             return query;
         }
 
-        public void Update<T>(T entity) where T : class
+        public void Update(T entity)
         {
             Context.Set<T>().Attach(entity);
             Context.Entry(entity).State = EntityState.Modified;
             Context.SaveChanges();
+        }
+        public virtual IQueryable<T> FindBy(Expression<Func<T, bool>> predicate, string[] includeProperties = null)
+        {
+            IQueryable<T> query = Context.Set<T>();
+
+            if (includeProperties != null)
+                foreach (string includeProperty in includeProperties)
+                {
+                    query = query.Include(includeProperty);
+                }
+
+            return query.Where(predicate);
         }
 
     }
