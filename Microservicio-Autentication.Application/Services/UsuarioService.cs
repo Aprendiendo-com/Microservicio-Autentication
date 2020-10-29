@@ -63,7 +63,7 @@ namespace Microservicio_Autentication.Application.Services
         {
             //validamos que el usuario ingresado existe en la db
 
-            var usuariodb = this.GetBy( x => x.Apellido == usuario.Apellido && x.Nombre == usuario.Nombre, new string[] { "UsuarioRolNavigator.Roles" })
+            var usuariodb = this.GetBy( x => x.Email == usuario.Email, new string[] { "UsuarioRolNavigator.Roles" })
                 .FirstOrDefault();
 
             if (usuariodb == null)
@@ -87,9 +87,10 @@ namespace Microservicio_Autentication.Application.Services
 
             // se crea los claim
             var claims = new[] {
-                new Claim("Nombre", usuario.Nombre),
-                new Claim("Apellido", usuario.Apellido),
-                new Claim("Rol", rol)
+                new Claim("Nombre", usuariodb.Nombre),
+                new Claim("Apellido", usuariodb.Apellido),
+                new Claim("Rol", rol),
+                new Claim("UsuarioId", usuariodb.UsuarioId.ToString())
             };
 
             // creacion del payload del token
