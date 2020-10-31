@@ -39,7 +39,6 @@ namespace Microservicio_Autentication
                 c.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
             });
 
-
             //Configuracion de CORS
             
             services.AddControllersWithViews()
