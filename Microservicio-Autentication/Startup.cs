@@ -34,6 +34,20 @@ namespace Microservicio_Autentication
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors(c =>
+            {
+                c.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+            });
+
+
+            //Configuracion de CORS
+            
+            services.AddControllersWithViews()
+                    .AddNewtonsoftJson(options =>
+                    options.SerializerSettings.ReferenceLoopHandling =
+                    Newtonsoft.Json.ReferenceLoopHandling.Ignore
+                    );
+            
 
             //var key = Encoding.ASCII.GetBytes(Configuration.GetSection("Authentication:SecretKey").Value);
 
@@ -69,6 +83,8 @@ namespace Microservicio_Autentication
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.UseCors(options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+
             app.UseSwagger();
 
             app.UseSwaggerUI(c =>
