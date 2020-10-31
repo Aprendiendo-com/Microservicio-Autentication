@@ -92,7 +92,6 @@ namespace Microservicio_Autentication
                 c.RoutePrefix = string.Empty;
             });
 
-
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
