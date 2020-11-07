@@ -63,7 +63,7 @@ namespace Microservicio_Autentication.Application.Services
         {
             //validamos que el usuario ingresado existe en la db
 
-            var usuariodb = this.GetBy( x => x.Email == usuario.Email, new string[] { "UsuarioRolNavigator.Roles" })
+            var usuariodb = this.GetBy( x => x.Email == usuario.Email, new string[] { "UsuarioRolNavigator" })
                 .FirstOrDefault();
 
             if (usuariodb == null)
@@ -78,7 +78,7 @@ namespace Microservicio_Autentication.Application.Services
                 throw new Exception("La contraseña ingresada no es valida");
             }
 
-            var rol = usuariodb.UsuarioRolNavigator.Select(x => x.Roles.TipoRol).FirstOrDefault();
+            var rol = usuariodb.UsuarioRolNavigator.Select(x => x.RolId).FirstOrDefault();
 
             // se crea el header //
             var _symmetricSecurityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(this._configuration.GetSection("Authentication:SecretKey").Value));
@@ -89,7 +89,7 @@ namespace Microservicio_Autentication.Application.Services
             var claims = new[] {
                 new Claim("Nombre", usuariodb.Nombre),
                 new Claim("Apellido", usuariodb.Apellido),
-                new Claim("Rol", rol),
+                new Claim("Rol", rol.ToString()),
                 new Claim("UsuarioId", usuariodb.UsuarioId.ToString())
             };
 
