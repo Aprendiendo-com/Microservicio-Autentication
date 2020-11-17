@@ -3,14 +3,16 @@ using Microservicio_Autentication.AccessData.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Microservicio_Autentication.AccessData.Migrations
 {
     [DbContext(typeof(GenericContex))]
-    partial class GenericContexModelSnapshot : ModelSnapshot
+    [Migration("20201117041736_nuevaMigation")]
+    partial class nuevaMigation
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -148,44 +150,6 @@ namespace Microservicio_Autentication.AccessData.Migrations
                     b.HasIndex("UsuarioId");
 
                     b.ToTable("UsuarioRoles");
-
-                    b.HasData(
-                        new
-                        {
-                            UsuarioRolId = 20,
-                            RolId = 1,
-                            UsuarioId = 20
-                        },
-                        new
-                        {
-                            UsuarioRolId = 21,
-                            RolId = 1,
-                            UsuarioId = 21
-                        },
-                        new
-                        {
-                            UsuarioRolId = 22,
-                            RolId = 1,
-                            UsuarioId = 22
-                        },
-                        new
-                        {
-                            UsuarioRolId = 23,
-                            RolId = 1,
-                            UsuarioId = 23
-                        },
-                        new
-                        {
-                            UsuarioRolId = 24,
-                            RolId = 1,
-                            UsuarioId = 24
-                        },
-                        new
-                        {
-                            UsuarioRolId = 25,
-                            RolId = 1,
-                            UsuarioId = 25
-                        });
                 });
 
             modelBuilder.Entity("Microservicio_Autentication.Domain.Entities.UsuarioRol", b =>
